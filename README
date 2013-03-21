@@ -1,0 +1,7 @@
+绿野网内部搜索引擎
+
+搜索框架：scrapy
+
+抓去内容： 各大大型户外网站的户外活动数据.
+
+关于搜索框架帮助文档,参考 http://doc.scrapy.org/en/latest/index.html
