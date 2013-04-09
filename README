@@ -13,3 +13,9 @@
 
 ps: 不推荐使用官方部署方式(web server)
 
+
+该爬虫项目不同人员负责不同网站的抓去细节, 人员分配如下:
+
+中国徒步网  www.chinawalking.net.cn 王德龙
+磨坊    www.doyouhike.net 毛爱辉
+517户外网   http://www.517huwai.com 马瑞鹏

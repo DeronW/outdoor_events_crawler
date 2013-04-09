@@ -54,10 +54,12 @@ def check_spider_pipeline(process_item_method):
     """ check if current item source is the spider that define pipelines contain this pipeline """
     @wraps(process_item_method)
     def wrapper(self, item, spider):
-        if self.__class__ in spider.pipeline:
-            return process_item_method(self, item, spider)
-        else:
-            return item
+        try:
+            if self.__class__ in spider.pipeline:
+                return process_item_method(self, item, spider)
+        except AttributeError:
+            pass
+        return item
     return wrapper
 
 class ListSavePipeline(object):
@@ -78,8 +80,8 @@ class DetailFilterPipeline(object):
 
     @check_spider_pipeline
     def process_item(self, item, spider):
-        tfrom = item['starttimefrom']
-        tto = item['starttimeto']
+        tfrom = item.get('starttimefrom', 0)
+        tto = item.get('starttimeto', 0)
         item.update(format_time(tfrom, tto))
         return item
 

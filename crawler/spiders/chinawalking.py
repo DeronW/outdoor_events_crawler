@@ -1,11 +1,42 @@
 from scrapy.spider import BaseSpider
-from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.http import Request
 from scrapy.selector import HtmlXPathSelector
 from scrapy import log
 
-from crawler.items import ActivityItem
-from crawler.db import get_start_urls
 from crawler import pipelines
+from crawler.items import ListItem, ActivityItem
+from crawler.db import get_start_urls
+
+class ChinaWalkingMainSpider(BaseSpider):
+    name = 'c'
+    allowed_domains = ['www.chinawalking.net.cn']
+    start_urls = ['http://www.chinawalking.net.cn/newsite/huodong.php?PageNo=1']
+
+    pipeline = set([
+        pipelines.ListSavePipeline,
+    ])
+
+    def parse(self, response):
+        hxs = HtmlXPathSelector(response)
+        links = hxs.select('//p[@class="yema"]/a/@href')
+        nums = links.re('\d+')
+        pages = int(nums[-1])
+        for i in range(1, pages):
+            yield Request('http://www.chinawalking.net.cn/newsite/huodong.php?PageNo=%s' % i, callback=self.parse_detail_url)
+
+    def parse_detail_url(self, response):
+        hxs = HtmlXPathSelector(response)
+        links = hxs.select('//li[@class="mingzi"]/a')
+        
+        items = []
+        for i in links:
+            title = i.select('text()').extract()[0]
+            link = i.select('@href').extract()[0]
+            item = ListItem()
+            item['url'] = '%s/%s' % ('http://www.chinawalking.net.cn/newsite', link)
+            item['site'] = 'www.chinawalking.net.cn'
+            items.append(item)
+        return items
 
 class ChinaWalkingActivitySpider(BaseSpider):
 

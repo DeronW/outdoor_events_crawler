@@ -66,3 +66,4 @@ class DetailDB(object):
 
     def save(self, statement):
         self.dbpool.runOperation(statement)
+

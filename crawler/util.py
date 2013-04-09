@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from datetime import datetime 
+import datetime
 import time
 
 ACTIVITYTYPE= (u'登山', u'夜爬', u'徒步', u'露营', u'骑行', u'骑马', u'自驾', u'滑雪', u'跑步', u'攀岩', u'垂钓', u'漂流', u'划船', u'冲浪', u'潜水', u'滑翔', u'轮滑', u'滑板', u'航海', u'聚会')
@@ -65,3 +66,5 @@ def format_time(tfrom, tto):
     data['date_dimension'] = SCHTYPE.get((datetype, datelen), '')
     return data
 
+def today_str():
+    return datetime.datetime.today().date().isoformat()
