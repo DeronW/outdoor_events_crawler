@@ -41,7 +41,7 @@ class ChinaWalkingMainSpider(BaseSpider):
 class ChinaWalkingActivitySpider(BaseSpider):
 
     name = 'cw'
-    allowed_domains = ['http://www.chinawalking.net.cn']
+    allowed_domains = ['www.chinawalking.net.cn']
     start_urls = get_start_urls('www.chinawalking.net.cn')
 
     pipeline = set([

@@ -17,7 +17,6 @@ def get_url_range():
     while True:
         num += 1
         url = '%s&p=%s' % (base_url, num)
-        print url
         r = urllib2.urlopen(url)
         if len(r.read()) < 100 or num > 50:
             break;
@@ -25,7 +24,7 @@ def get_url_range():
             urls.append(url)
     return urls
 
-class Huwai517Spider(BaseSpider):
+class Huwai517MainSpider(BaseSpider):
     name = 'h'
     allowed_domains = ['www.517huwai.com']
     start_urls = get_url_range()
@@ -35,5 +34,29 @@ class Huwai517Spider(BaseSpider):
     ])
 
     def parse(self, response):
-        print response.url
+        hxs = HtmlXPathSelector(response)
+        links = hxs.select('//div[@class="Img"]/a/@href').extract()
+        items = []
+        for i in links:
+            item = ListItem()
+            item['url'] = '%s/%s' % ('http://www.517huwai.com', i)
+            item['site'] = 'www.517huwai.com'
+            items.append(item)
+        return items
 
+
+class Huwai517ActivitySpider(BaseSpider):
+
+    name = 'ha'
+    allowed_domains = ['www.517huwai.']
+    start_urls = get_start_urls('www.517huwai.com')
+
+    pipeline = set([
+        pipelines.DetailFilterPipeline,
+        pipelines.DetailSavePipeline,
+    ])
+
+    def parse(self, response):
+        print response.url
+        item = ActivityItem()
+ 
