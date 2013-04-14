@@ -32,7 +32,7 @@ class DoyouhikeSpider(BaseSpider):
         activities = data['result']
         for i in activities:
             item = ListItem()
-            item['url'] = 'http://www.doyouhike.net/%s' % i['url']
+            item['url'] = 'http://www.doyouhike.net%s' % i['url']
             item['site'] = 'www.doyouhike.net'
         return item
 

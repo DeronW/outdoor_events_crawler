@@ -29,3 +29,11 @@ DB_PASSWORD = 'lvye'
 DB_DBNAME = 'search_mid'
 DB_PORT = 3306
 DB_CHARSET = 'utf8'
+
+MAIN_SPIDER = (
+    'c', 
+    'y'
+)
+ACTIVITY_SPIDER = (
+    '',
+)
